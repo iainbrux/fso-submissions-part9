@@ -18,6 +18,9 @@ const parseNodeArguments = (args: Array<string>): Measurements => {
 }
 
 const calculateBMI = (weightInKg: number, heightInMeters: number) => {
+  if (heightInMeters > 2.5 || heightInMeters < 0) {
+    throw new Error('Please enter a valid height in meters. For example, 188cm = 1.88');
+  }
   console.log(`Your BMI is ${Math.floor(weightInKg / (heightInMeters ** 2))}.`);
 }
 
