@@ -34,7 +34,7 @@ const calculateExercises = (target: number, hours: Array<number>): Result => {
   const periodLength: number = hours.length;
   const trainingDays: number = hours.filter(day => day !== 0).length;
   const success: boolean = trainingDays > target ? true : false
-  const rating: number = Number((trainingDays / periodLength * 100).toFixed(2));
+  const rating: number = Number((trainingDays / periodLength * 3).toFixed(2));
   const average: number = Number((hours.reduce<number>((acc, val) => acc + val, 0) / hours.length).toFixed(2))
   const ratingDescription: string = trainingDays > target ? 'Amazing!' : trainingDays === target ? 'Ok' : trainingDays < target && trainingDays > 0 ? 'Needs improvement' : 'Lazy'
   const result: Result = {
