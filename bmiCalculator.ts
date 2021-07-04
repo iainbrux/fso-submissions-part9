@@ -17,11 +17,21 @@ const parseNodeArguments = (args: Array<string>): Measurements => {
   }
 }
 
-const calculateBMI = (weightInKg: number, heightInMeters: number) => {
-  if (heightInMeters > 2.5 || heightInMeters < 0) {
-    throw new Error('Please enter a valid height in meters. For example, 188cm = 1.88');
+const calculateBMI = (weightInKg: number, heightInCm: number) => {
+  if (heightInCm > 250 || heightInCm < 0) {
+    throw new Error('Please enter a valid height in centimeters.');
   }
-  console.log(`Your BMI is ${Math.floor(weightInKg / (heightInMeters ** 2))}.`);
+  const bmiNumber = Math.floor(weightInKg / ((heightInCm / 100) ** 2))
+  const bmi = bmiNumber < 18.5 ? 'Underweight'
+    : bmiNumber >= 18.5 &&  bmiNumber <= 24.9 ? 'Healthy weight!'
+    : bmiNumber >= 25 && bmiNumber <= 29.9 ? 'Overweight'
+    : 'Obese';
+
+  return {
+    weightInKg,
+    heightInCm,
+    bmi
+  }
 }
 
 try {
@@ -30,3 +40,5 @@ try {
 } catch (err) {
   console.log('An error occured. Error message:', err.message)
 }
+
+export default calculateBMI
