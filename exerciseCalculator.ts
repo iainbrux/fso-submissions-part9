@@ -13,12 +13,16 @@ interface WorkoutInput {
   workouts: Array<number>
 }
 
-const parseArguments = (args: Array<string>): WorkoutInput => {
+const parseArguments = (args: string[]): WorkoutInput => {
   if (args.length < 4) throw new Error('Not enough arguments');
+  for (let i = 2; i < args.length; i++) {
+    if (isNaN(Number(args[i]))) {
+      throw new Error('Cannot pass an argument that is not a number')
+    }
+  }
 
-  const target = Number(args[2]);
-  args.shift();
-  const workouts = args.map(arg => Number(arg));
+  const workouts: Array<number> = args.filter(arg => arg !== args[0] && arg !== args[1]).map(arg => Number(arg)); //creates a new array without mutating the original node arguments
+  const target: number = Number(workouts.shift()); // ok to mutate new array!
 
   return {
     target,
@@ -31,8 +35,7 @@ const calculateExercises = (target: number, hours: Array<number>): Result => {
   const trainingDays: number = hours.filter(day => day !== 0).length;
   const success: boolean = trainingDays > target ? true : false
   const rating: number = Number((trainingDays / periodLength * 100).toFixed(2));
-  const average: number = Number((hours.reduce((acc, val) => acc + val, 0) / hours.length).toFixed(2));
-  // const average: number = 12;
+  const average: number = Number((hours.reduce<number>((acc, val) => acc + val, 0) / hours.length).toFixed(2))
   const ratingDescription: string = trainingDays > target ? 'Amazing!' : trainingDays === target ? 'Ok' : trainingDays < target && trainingDays > 0 ? 'Needs improvement' : 'Lazy'
   const result: Result = {
     periodLength,
@@ -44,15 +47,17 @@ const calculateExercises = (target: number, hours: Array<number>): Result => {
     ratingDescription
   }
 
-  console.log(average)
   console.log(result)
 
   return result
 }
 
-try {
-  const {target, workouts} = parseArguments(process.argv);
+try 
+{
+  const { target, workouts } = parseArguments(process.argv);
   calculateExercises(target, workouts);
-} catch (err) {
+} 
+catch (err)
+{
   console.log('An error has occured. Error message:', err.message)
 }
