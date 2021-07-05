@@ -21,10 +21,11 @@ app.get('/bmi', (req, res) => {
         error: err.message
       }).json()
     }
+  } else {
+    res.status(400).send({
+      error: 'malformatted perameters'
+    }).json()
   }
-  res.status(400).send({
-    error: 'malformatted perameters'
-  }).json()
 })
 
 const PORT: number = 3003;
