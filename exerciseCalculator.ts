@@ -21,8 +21,8 @@ const parseArguments = (args: string[]): WorkoutInput => {
     }
   }
 
-  const workouts: Array<number> = args.filter(arg => arg !== args[0] && arg !== args[1]).map(arg => Number(arg)); //creates a new array without mutating the original node arguments
-  const target: number = Number(workouts.shift()); // ok to mutate new array!
+  const workouts = args.filter(arg => arg !== args[0] && arg !== args[1]).map(arg => Number(arg)); //creates a new array without mutating the original node arguments
+  const target = Number(workouts.shift()); // ok to mutate new array!
 
   return {
     target,
@@ -31,12 +31,12 @@ const parseArguments = (args: string[]): WorkoutInput => {
 }
 
 const calculateExercises = (target: number, hours: Array<number>): Result => {
-  const periodLength: number = hours.length;
-  const trainingDays: number = hours.filter(day => day !== 0).length;
-  const success: boolean = trainingDays > target ? true : false
-  const rating: number = Number((trainingDays / periodLength * 3).toFixed(2));
-  const average: number = Number((hours.reduce<number>((acc, val) => acc + val, 0) / hours.length).toFixed(2))
-  const ratingDescription: string = trainingDays > target ? 'Amazing!' : trainingDays === target ? 'Ok' : trainingDays < target && trainingDays > 0 ? 'Needs improvement' : 'Lazy'
+  const periodLength = hours.length;
+  const trainingDays = hours.filter(day => day !== 0).length;
+  const success = trainingDays > target ? true : false
+  const rating = Number((trainingDays / periodLength * 3).toFixed(2));
+  const average = Number((hours.reduce<number>((acc, val) => acc + val, 0) / hours.length).toFixed(2))
+  const ratingDescription = trainingDays > target ? 'Amazing!' : trainingDays === target ? 'Ok' : trainingDays < target && trainingDays > 0 ? 'Needs improvement' : 'Lazy'
   const result: Result = {
     periodLength,
     trainingDays,

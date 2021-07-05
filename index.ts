@@ -1,5 +1,5 @@
 import express = require('express');
-import calculateBMI from './bmiCalculator';
+import calculateBMI = require('./bmiCalculator');
 const app = express();
 
 app.get('/hello', (_req, res) => {

@@ -41,4 +41,4 @@ try {
   console.log('An error occured. Error message:', err.message)
 }
 
-export default calculateBMI
+export = calculateBMI
