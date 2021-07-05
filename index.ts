@@ -1,6 +1,6 @@
 import express = require('express');
 import calculateBMI from './bmiCalculator';
-import { calculateExercises, ValidateWorkoutInput } from './exerciseCalculator';
+import { calculateExercises, ValidateWorkoutInput, WorkoutInput } from './exerciseCalculator';
 const app = express();
 
 app.use(express.json()); // to console.log req.body!
@@ -26,6 +26,10 @@ app.get('/bmi', (req, res) => {
         }).json();
       }
     }
+  } else {
+    res.status(400).send({
+      error: 'malformatted perameters'
+    }).json();
   }
   res.status(400).send({
     error: 'malformatted perameters'
@@ -34,7 +38,7 @@ app.get('/bmi', (req, res) => {
 
 app.post('/exercises', (req, res) => {
   if (req.body instanceof ValidateWorkoutInput) {
-    const { target, workouts } = req.body;
+    const { target, workouts }: WorkoutInput = req.body;
     calculateExercises(target, workouts);
     res.status(201).end();
   }

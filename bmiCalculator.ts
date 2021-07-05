@@ -4,9 +4,9 @@ interface Measurements {
 }
 
 const parseNodeArguments = (args: Array<string>): Measurements => {
-  if (args.length < 4) throw new Error('Not enough arguments were passed');
+  if (args.length < 4) throw new Error('Not enough node CLI arguments were passed.');
   if (args.length > 4) throw new Error('Too many arguments were passed');
-
+  
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
     return {
       weight: Number(args[2]),
