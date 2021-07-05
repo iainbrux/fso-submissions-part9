@@ -52,12 +52,9 @@ const calculateExercises = (target: number, hours: Array<number>): Result => {
   return result
 }
 
-try 
-{
+try {
   const { target, workouts } = parseArguments(process.argv);
   calculateExercises(target, workouts);
-} 
-catch (err)
-{
+} catch (err) {
   console.log('An error has occured. Error message:', err.message)
 }

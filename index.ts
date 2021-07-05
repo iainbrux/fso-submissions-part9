@@ -10,12 +10,8 @@ app.get('/bmi', (req, res) => {
   console.dir(req.query);
   if(req.query.weight && req.query.height) {
     try {
-      const { weightInKg, heightInCm, bmi } = calculateBMI(Number(req.query.weight), Number(req.query.height));
-      res.status(200).send({
-        weightInKg,
-        heightInCm,
-        bmi
-      }).json()
+      const result = calculateBMI(Number(req.query.weight), Number(req.query.height));
+      res.status(200).send(result).json()
     } catch(err) {
       res.status(400).send({
         error: err.message
