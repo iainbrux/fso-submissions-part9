@@ -1,10 +1,13 @@
 import express = require('express');
 import calculateBMI from './bmiCalculator';
+import { calculateExercises, ValidateWorkoutInput } from './exerciseCalculator';
 const app = express();
+
+app.use(express.json()); // to console.log req.body!
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
-})
+});
 
 app.get('/bmi', (req, res) => {
   console.dir(req.query);
@@ -15,20 +18,30 @@ app.get('/bmi', (req, res) => {
         weightInKg,
         heightInCm,
         bmi
-      }).json()
+      }).json();
     } catch(err) {
-      res.status(400).send({
-        error: err.message
-      }).json()
+      if (err instanceof Error) {
+        res.status(400).send({
+          error: err.message
+        }).json();
+      }
     }
   }
   res.status(400).send({
     error: 'malformatted perameters'
-  }).json()
-})
+  }).json();
+});
 
-const PORT: number = 3003;
+app.post('/exercises', (req, res) => {
+  if (req.body instanceof ValidateWorkoutInput) {
+    const { target, workouts } = req.body;
+    calculateExercises(target, workouts);
+    res.status(201).end();
+  }
+});
+
+const PORT = 3003;
 
 app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`)
-})
+  console.log(`Server started on port ${PORT}`);
+});
