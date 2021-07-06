@@ -37,12 +37,24 @@ app.get('/bmi', (req, res) => {
 });
 
 app.post('/exercises', (req, res) => {
-  const { target, workouts }: WorkoutInput = req.body;
-  const responseBody = calculateExercises(target, workouts);
-  console.log(responseBody);
-  res.status(201)
-    .send(responseBody)
-    .json();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  if (req.body.target && req.body.workouts) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (typeof req.body.target !== 'number' || !Array.isArray(req.body.workouts)) {
+      res.status(400).send({ error: "malformatted perameters" }).json().end();
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { target, workouts }: WorkoutInput = req.body;
+
+    workouts.forEach(num => typeof num !== 'number' ? res.status(400).send({ error: "malformatted perameters" }).end() : false);
+
+    const responseBody = calculateExercises(target, workouts);
+    res.status(201).send(responseBody).json().end();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  } else if (!req.body.target || !req.body.workouts) {
+    console.dir(req.body);
+    res.status(400).send({ error: 'parameters missing' }).json();
+  }
 });
 
 const PORT = 3003;

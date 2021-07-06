@@ -13,16 +13,6 @@ export interface WorkoutInput {
   workouts: Array<number>
 }
 
-export class ValidateWorkoutInput {
-  target: number;
-  workouts: number[];
-
-  constructor(target: number, workouts: number[]) {
-    this.target = target;
-    this.workouts = workouts;
-  }
-}
-
 const parseArguments = (args: string[]): WorkoutInput => {
   if (args.length < 4) throw new Error('Not enough arguments');
   for (let i = 2; i < args.length; i++) {
