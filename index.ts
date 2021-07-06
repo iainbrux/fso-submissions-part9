@@ -1,6 +1,6 @@
 import express = require('express');
 import calculateBMI from './bmiCalculator';
-import { calculateExercises, ValidateWorkoutInput, WorkoutInput } from './exerciseCalculator';
+import { calculateExercises, WorkoutInput } from './exerciseCalculator';
 const app = express();
 
 app.use(express.json()); // to console.log req.body!
@@ -37,11 +37,12 @@ app.get('/bmi', (req, res) => {
 });
 
 app.post('/exercises', (req, res) => {
-  if (req.body instanceof ValidateWorkoutInput) {
-    const { target, workouts }: WorkoutInput = req.body;
-    calculateExercises(target, workouts);
-    res.status(201).end();
-  }
+  const { target, workouts }: WorkoutInput = req.body;
+  const responseBody = calculateExercises(target, workouts);
+  console.log(responseBody);
+  res.status(201)
+    .send(responseBody)
+    .json();
 });
 
 const PORT = 3003;
